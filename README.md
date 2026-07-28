@@ -1,39 +1,54 @@
-# ⚡ 8-Bit Custom Microprocessor 
+# ⚡ 8-Bit Custom Microprocessor
 
-An 8-bit modular CPU architecture designed, simulated, and executed in **Logisim**. The microprocessor features a hierarchical Arithmetic Logic Unit (ALU), an internal register file, and custom ROM instruction decoding capable of executing dynamic arithmetic/logic calculations while streaming ASCII text to a terminal display interface.
+An 8-bit modular CPU architecture designed and simulated in **Logisim**[`main.circ`]. The system features a hierarchical ALU, a multi-register file, and custom opcode decoding that parses hexadecimal instruction streams (`Inp_data.txt`) to execute arithmetic/bitwise operations and render ASCII output on a TTY terminal display.
 
 ---
 
-## 🛠 Tech Stack & Key Concepts
+## 🛠 Tech Stack
 
-- **Simulation Engine:** Logisim / Logisim-Evolution
+- **Simulator:** Logisim / Logisim-Evolution
 - **Architecture:** 8-Bit Datapath, Multi-Operation ALU, Register File
-- **Memory & Encoding:** Hexadecimal Instruction Streams, ASCII Memory-Mapping, Control-Payload Microcode
+- **Concepts:** Custom ISA, Hexadecimal Microcode Encoding, ASCII Memory-Mapping.
 
 ---
 
 ## 🚀 Key Features
 
-* **Modular 8-Bit ALU:** Supports **6 distinct operations**:
-  * Arithmetic: `ADD`, `SUB`
-  * Bitwise Logic: `AND`, `OR`, `XOR`, `NOT`
-* **Dedicated Register File:** Handles temporary operand storage and state management during execution loops.
-* **2-Byte Custom Instruction Decoding:** Processes custom hex microcode (`[Control Byte] [Payload]`) loaded from memory files (`Inp_data.txt`).
-* **Dynamic Terminal Output:** Streams formatted ASCII headers (up to 23 characters) and outputs live arithmetic calculation results directly to a simulated TTY display module.
+* **Modular 8-Bit ALU:** Supports 6 distinct operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `NOT`)[cite: 2].
+* **Dedicated Register File:** Manages temporary operand storage (`Reg A`, `Reg B`)[cite: 2].
+* **Custom ISA Decoding:** Decodes nibble-mapped microcode loaded from ROM memory images (`Inp_data.txt`)[cite: 1, 2].
+* **TTY Terminal Output:** Renders formatted ASCII text headers and live calculation results[cite: 1, 2].
 
 ---
 
-## 📑 Instruction Set & Memory Mapping
+## 🎬 Simulation Demo
 
-The control unit parses 2-byte hexadecimal sequences to trigger execution cycles and display rendering:
+![Microprocessor Execution Demo](./docs/demo.gif)
+<img width="800" height="418" alt="ezgif-5481b6bd05e811b5" src="https://github.com/user-attachments/assets/f32fe1d8-04b2-4ae0-aebd-ea65bf83afe8" />
 
-$$\text{Instruction Format} = \text{[ Control Byte ]} \quad \text{[ Payload / ASCII Byte ]}$$
+---
 
-### Example Instruction Pair Breakdown:
-| Byte Type | Example Hex | Purpose |
-| :--- | :--- | :--- |
-| **Control Byte** | `14` / `16` / `30` | Signals control lines (e.g., set row/line, pulse display enable, reset control) |
-| **Payload Byte** | `43` (`'C'`) / `41` (`'A'`) | Contains the raw ASCII character hex value or binary data operand |
+## 📑 Instruction Set Architecture (ISA)
+
+The control unit parses 8-bit hexadecimal bytes from ROM (`Inp_data.txt`), using the high-nibble as the **Opcode** and the low-nibble as the **Operand / Data Parameter**
+:
+
+$$\text{Instruction Format (Hex)} = \text{[ Opcode (4-bit) ]} \quad \text{[ Operand / Data (4-bit) ]}$$
+
+### Opcode Mapping (`0x1` – `0x0A`):
+
+| Opcode (Hex) | Action | Description |
+| :---: | :--- | :--- |
+| **`1`** | `LOAD REG A` | Loads 8-bit operand into **Register A** |
+| **`2`** | `LOAD REG B` | Loads 8-bit operand into **Register B** |
+| **`3`** | `OUTPUT DISPLAY` | Sends contents of **Reg A** and **Reg B** to display terminal |
+| **`4`** | `LOAD ALU REG E` | Loads target value into ALU internal Register E |
+| **`5`** | `ALU ADD` | Executes **Addition** on `Reg A` and `Reg B` |
+| **`6`** | `ALU SUB` | Executes **Subtraction** on `Reg A` and `Reg B` |
+| **`7`** | `ALU AND` | Executes Bitwise **AND** on `Reg A` and `Reg B` |
+| **`8`** | `ALU OR` | Executes Bitwise **OR** on `Reg A` and `Reg B` |
+| **`9`** | `ALU XOR` | Executes Bitwise **XOR** on `Reg A` and `Reg B` |
+| **`A`** | `ALU NOT` | Executes Bitwise **NOT** on `Reg A` |
 
 ---
 
@@ -42,13 +57,14 @@ $$\text{Instruction Format} = \text{[ Control Byte ]} \quad \text{[ Payload / AS
 ```text
 .
 ├── docs/
-│   └── ascii_table.png       # Reference ASCII mapping table used for microcode encoding
-├── firmware/
+│   ├── ascii_table.png       # Reference ASCII mapping table used for microcode encoding
+│   └── demo.gif              # Simulation execution clip
+├── data/
 │   └── Inp_data.txt          # Raw hexadecimal ROM memory image containing control & text payloads
-├── src/
-│   ├── ASSI.circ             # 🌟 MAIN CPU SCHEMATIC (Top-Level Entry Point)
-│   ├── alu.circ              # Integrated Arithmetic Logic Unit module
-│   ├── registers_file.circ   # Multi-register storage unit
+├── circuit/
+│   ├── main.circ             # Main CPU schematic (Top-Level Entry Point)
+│   ├── alu.circ              # Integrated ALU module
+│   ├── registers_file.circ   # Register storage unit (Reg A, Reg B)
 │   ├── add.circ              # 8-bit Adder module
 │   ├── sub.circ              # 8-bit Subtractor module
 │   ├── and.circ              # Bitwise AND module
