@@ -1,6 +1,6 @@
 # ⚡ 8-Bit Custom Microprocessor
 
-An 8-bit modular CPU architecture designed and simulated in **Logisim**[`main.circ`]. The system features a hierarchical ALU, a multi-register file, and custom opcode decoding that parses hexadecimal instruction streams (`Inp_data.txt`) to execute arithmetic/bitwise operations and render ASCII output on a TTY terminal display.
+An 8-bit modular CPU architecture designed and simulated in **Logisim**(`main.circ`). The system features a hierarchical ALU, a multi-register file, and custom opcode decoding that parses hexadecimal instruction streams (`Inp_data.txt`) to execute arithmetic/bitwise operations and render ASCII output on a TTY terminal display.
 
 ---
 
@@ -14,10 +14,10 @@ An 8-bit modular CPU architecture designed and simulated in **Logisim**[`main.ci
 
 ## 🚀 Key Features
 
-* **Modular 8-Bit ALU:** Supports 6 distinct operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `NOT`)[cite: 2].
-* **Dedicated Register File:** Manages temporary operand storage (`Reg A`, `Reg B`)[cite: 2].
-* **Custom ISA Decoding:** Decodes nibble-mapped microcode loaded from ROM memory images (`Inp_data.txt`)[cite: 1, 2].
-* **TTY Terminal Output:** Renders formatted ASCII text headers and live calculation results[cite: 1, 2].
+* **Modular 8-Bit ALU:** Supports 6 distinct operations (`ADD`, `SUB`, `AND`, `OR`, `XOR`, `NOT`).
+* **Dedicated Register File:** Manages temporary operand storage (`Reg A`, `Reg B`).
+* **Custom ISA Decoding:** Decodes nibble-mapped microcode loaded from ROM memory images (`Inp_data.txt`).
+* **TTY Terminal Output:** Renders formatted ASCII text headers and live calculation results.
 
 ---
 
